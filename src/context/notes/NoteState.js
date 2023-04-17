@@ -2,112 +2,87 @@ import NoteContext from "./noteContext";
 import { useState } from "react";
 
 const NoteState = (props) => {
-  const notesInitial = [
-    {
-      "_id": "643c0a585fdef58824297fe7",
-      "user": "6437e874ccc29fe3d4d9f9d5",
-      "title": "Title",
-      "description": "A Site Viper Lineups",
-      "tag": "valorant",
-      "date": "2023-04-16T14:46:48.960Z",
-      "__v": 0
-    },
-    {
-      "_id": "643c0a855fdef58824297fed",
-      "user": "6437e874ccc29fe3d4d9f9d5",
-      "title": "Title 2",
-      "description": "C Site Viper Lineups",
-      "tag": "valorant",
-      "date": "2023-04-16T14:47:33.214Z",
-      "__v": 0
-    },
-    {
-      "_id": "643c0a855fdef58824297fed",
-      "user": "6437e874ccc29fe3d4d9f9d5",
-      "title": "Title 2",
-      "description": "C Site Viper Lineups",
-      "tag": "valorant",
-      "date": "2023-04-16T14:47:33.214Z",
-      "__v": 0
-    },
-    {
-      "_id": "643c0a855fdef58824297fed",
-      "user": "6437e874ccc29fe3d4d9f9d5",
-      "title": "Title 2",
-      "description": "C Site Viper Lineups",
-      "tag": "valorant",
-      "date": "2023-04-16T14:47:33.214Z",
-      "__v": 0
-    },
-    {
-      "_id": "643c0a855fdef58824297fed",
-      "user": "6437e874ccc29fe3d4d9f9d5",
-      "title": "Title 2",
-      "description": "C Site Viper Lineups",
-      "tag": "valorant",
-      "date": "2023-04-16T14:47:33.214Z",
-      "__v": 0
-    },
-    {
-      "_id": "643c0a855fdef58824297fed",
-      "user": "6437e874ccc29fe3d4d9f9d5",
-      "title": "Title 2",
-      "description": "C Site Viper Lineups",
-      "tag": "valorant",
-      "date": "2023-04-16T14:47:33.214Z",
-      "__v": 0
-    },
-    {
-      "_id": "643c0a855fdef58824297fed",
-      "user": "6437e874ccc29fe3d4d9f9d5",
-      "title": "Title 2",
-      "description": "C Site Viper Lineups",
-      "tag": "valorant",
-      "date": "2023-04-16T14:47:33.214Z",
-      "__v": 0
-    },
-    {
-      "_id": "643c0a855fdef58824297fed",
-      "user": "6437e874ccc29fe3d4d9f9d5",
-      "title": "Title 2",
-      "description": "C Site Viper Lineups",
-      "tag": "valorant",
-      "date": "2023-04-16T14:47:33.214Z",
-      "__v": 0
-    },
-    {
-      "_id": "643c0a855fdef58824297fed",
-      "user": "6437e874ccc29fe3d4d9f9d5",
-      "title": "Title 2",
-      "description": "C Site Viper Lineups",
-      "tag": "valorant",
-      "date": "2023-04-16T14:47:33.214Z",
-      "__v": 0
-    },
-    {
-      "_id": "643c0a855fdef58824297fed",
-      "user": "6437e874ccc29fe3d4d9f9d5",
-      "title": "Title 2",
-      "description": "C Site Viper Lineups",
-      "tag": "valorant",
-      "date": "2023-04-16T14:47:33.214Z",
-      "__v": 0
-    },
-    {
-      "_id": "643c0a855fdef58824297fed",
-      "user": "6437e874ccc29fe3d4d9f9d5",
-      "title": "Title 2",
-      "description": "C Site Viper Lineups",
-      "tag": "valorant",
-      "date": "2023-04-16T14:47:33.214Z",
-      "__v": 0
-    }
-  ];
+  const host = 'http://localhost:5000'
+  const notesInitial = []
 
-  const [notes, setNotes] = useState(notesInitial)
+  const [notes, setNotes] = useState(notesInitial);
+
+  // * Get all Notes
+  const getNotes = async() =>{
+    // * API Call
+    const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzN2U4NzRjY2MyOWZlM2Q0ZDlmOWQ1In0sImlhdCI6MTY4MTQ1MDk2MX0.o7dxzIn5PtKnWi69N8E0U2wcMLiaeXUAVpUqcWxZeLU'
+      }
+    });
+    const json = await response.json();
+    setNotes(json);
+  }
+
+  // * Add a Note
+  const addNote = async(title, description, tag) =>{
+    // * API Call
+    const response = await fetch(`${host}/api/notes/addnote`, {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json',
+        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzN2U4NzRjY2MyOWZlM2Q0ZDlmOWQ1In0sImlhdCI6MTY4MTQ1MDk2MX0.o7dxzIn5PtKnWi69N8E0U2wcMLiaeXUAVpUqcWxZeLU'
+      },
+      body: JSON.stringify({title, description, tag})
+    });
+
+    const note = await response.json();
+    setNotes(notes.concat(note));
+  }
+
+  // * Delete a Note
+  const deleteNote = async (id) =>{
+    // * API Call
+    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+      method: 'DELETE',
+      headers:{
+        'Content-Type': 'application/json',
+        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzN2U4NzRjY2MyOWZlM2Q0ZDlmOWQ1In0sImlhdCI6MTY4MTQ1MDk2MX0.o7dxzIn5PtKnWi69N8E0U2wcMLiaeXUAVpUqcWxZeLU'
+      }
+    });
+    const json = response.json(); 
+
+    const newNotes = notes.filter((note)=>{return note._id !== id});
+    setNotes(newNotes);
+  }
+
+  // * Edit a Note
+  const editNote = async(id, title, description, tag) =>{
+    // * API Call
+    const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+      method: 'PUT',
+      headers:{
+        'Content-Type': 'application/json',
+        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzN2U4NzRjY2MyOWZlM2Q0ZDlmOWQ1In0sImlhdCI6MTY4MTQ1MDk2MX0.o7dxzIn5PtKnWi69N8E0U2wcMLiaeXUAVpUqcWxZeLU'
+      },
+      body: JSON.stringify({title, description, tag})
+    });
+    const json = await response.json();
+
+    let newNotes = JSON.parse(JSON.stringify(notes));
+    // * Logic to edit in client
+    for (let index = 0; index < newNotes.length; index++) {
+      const element = newNotes[index];
+      if(element._id === id){
+        newNotes[index].title = title;
+        newNotes[index].description = description;
+        newNotes[index].tag = tag;
+        break;
+      }
+    }
+    setNotes(newNotes);
+  }
+
 
   return (
-    <NoteContext.Provider value={{notes, setNotes}}>
+    <NoteContext.Provider value={{notes, addNote, deleteNote, editNote, getNotes}}>
       {props.children}
     </NoteContext.Provider>
   )
