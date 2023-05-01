@@ -14,7 +14,7 @@ const NoteState = (props) => {
       method: 'GET',
       headers:{
         'Content-Type': 'application/json',
-        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzN2U4NzRjY2MyOWZlM2Q0ZDlmOWQ1In0sImlhdCI6MTY4MTQ1MDk2MX0.o7dxzIn5PtKnWi69N8E0U2wcMLiaeXUAVpUqcWxZeLU'
+        'auth-token': localStorage.getItem('auth-token')
       }
     });
     const json = await response.json();
@@ -28,7 +28,7 @@ const NoteState = (props) => {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json',
-        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzN2U4NzRjY2MyOWZlM2Q0ZDlmOWQ1In0sImlhdCI6MTY4MTQ1MDk2MX0.o7dxzIn5PtKnWi69N8E0U2wcMLiaeXUAVpUqcWxZeLU'
+        'auth-token': localStorage.getItem('auth-token')
       },
       body: JSON.stringify({title, description, tag})
     });
@@ -44,10 +44,11 @@ const NoteState = (props) => {
       method: 'DELETE',
       headers:{
         'Content-Type': 'application/json',
-        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzN2U4NzRjY2MyOWZlM2Q0ZDlmOWQ1In0sImlhdCI6MTY4MTQ1MDk2MX0.o7dxzIn5PtKnWi69N8E0U2wcMLiaeXUAVpUqcWxZeLU'
+        'auth-token': localStorage.getItem('auth-token')
       }
     });
     const json = response.json(); 
+    console.log(json);
 
     const newNotes = notes.filter((note)=>{return note._id !== id});
     setNotes(newNotes);
@@ -60,11 +61,12 @@ const NoteState = (props) => {
       method: 'PUT',
       headers:{
         'Content-Type': 'application/json',
-        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzN2U4NzRjY2MyOWZlM2Q0ZDlmOWQ1In0sImlhdCI6MTY4MTQ1MDk2MX0.o7dxzIn5PtKnWi69N8E0U2wcMLiaeXUAVpUqcWxZeLU'
+        'auth-token': localStorage.getItem('auth-token')
       },
       body: JSON.stringify({title, description, tag})
     });
     const json = await response.json();
+    console.log(json);
 
     let newNotes = JSON.parse(JSON.stringify(notes));
     // * Logic to edit in client

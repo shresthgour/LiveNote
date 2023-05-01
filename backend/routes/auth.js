@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/fetchuser');
 
+
 const JWT_SECRET = 'ThanoZisJ@WDD';
 
 
@@ -48,7 +49,7 @@ router.post('/createuser', [
 
     // res.json(user);
     success = true;
-    res.json({ success, authToken });
+    res.json({ authToken });
 
   } catch (error) {
     console.log(error.message);
